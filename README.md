@@ -20,6 +20,8 @@ make -j 3
 
 # 4. Run the engine (Wait for Python IPC commands)
 ./mvdr_engine --mic hw:1,0 --out plughw:Loopback,0,0 --debug
+# Open another terminal
+arecord -D hw:Loopback,1,0 -f S16_LE -r 16000 -c 1 test_beam.wav
 ```
 
 ```
