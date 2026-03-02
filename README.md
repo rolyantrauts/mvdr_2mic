@@ -49,3 +49,17 @@ IPC Control:
     'RESET' : Unlock beam, return to background noise mode
     'SET X' : Manually force beam to X degrees (e.g., 'SET 45')
 ```
+
+```
+python3 mvdr_test.py
+=== MVDR Manual Pilot ===
+Act as the neural network. Send commands to the C++ engine.
+Commands:
+  1 - Send 'VAD 1'  (Starts DOA Steering)
+  0 - Send 'VAD 0'  (Stops Steering, learns background noise)
+  L - Send 'LOCK'   (Evaluates the 1.6s history buffer and locks)
+  R - Send 'RESET'  (Unlocks and returns to AUTO)
+  Q - Quit
+-------------------------
+Pilot Command [1, 0, L, R, Q]: 
+```
