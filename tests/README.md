@@ -77,7 +77,8 @@ We use the ALSA snd-aloop virtual cables to route audio entirely inside the Pi w
 3. Generate the Polar Plot 
 In a second terminal, run the automation script. It will send IPC SET <angle> commands to the engine, stream the audio, measure the RMS decibel drop, and output a polar_plot_beam_sweep.png graph: 
 
-python3 run_polar_test.py 
+`python3 run_polar_test.py` 
+
 ⚠️ Current Status & Disclaimer 
 The downstream Wakeword dataset is currently being trained. 
 While the core C++ MVDR engine is complete, phase-accurate, and ALSA clock-drift proof, the accompanying C++ TFLite Wakeword runner (which will supply the required VAD 1/VAD 0 signals) has not yet been published. 
