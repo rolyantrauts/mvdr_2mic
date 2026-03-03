@@ -12,29 +12,29 @@ While this engine is capable of aggressive noise suppression, it is strictly bou
 
 
 
-* **Degrees of Freedom (DOF):** An array with *N* microphones has *N-1* degrees of freedom. This 2-mic array has exactly **1 DOF**.
-This means the covariance matrix can only deploy **one** spatial null at a time. It will hunt and mathematically crush the single loudest point-source noise in the room (e.g., a TV), but it cannot cancel a TV *and* a washing machine simultaneously.
-* **The 58mm Spacing:** The ReSpeaker HAT has a 58mm distance between microphones. This is highly usable for the human voice band, but it has hard physical limits.
-At low frequencies (<300 Hz), the wavelengths are too massive for the array to resolve accurate phase differences.
-At high frequencies (~2957 Hz), the array hits its "Spatial Aliasing" ceiling, where wavelengths become shorter than the mic gap, causing directional confusion.
-* **Front/Back Ambiguity:** A linear 2-mic array cannot tell if a sound is in front of it or behind it.
-If you generate a 360-degree polar map (using the tools below), the resulting graph will mirror perfectly from front to back.
+* **Degrees of Freedom (DOF):** An array with *N* microphones has *N-1* degrees of freedom. This 2-mic array has exactly **1 DOF**. 
+This means the covariance matrix can only deploy **one** spatial null at a time. It will hunt and mathematically crush the single loudest point-source noise in the room (e.g., a TV), but it cannot cancel a TV *and* a washing machine simultaneously. 
+* **The 58mm Spacing:** The ReSpeaker HAT has a 58mm distance between microphones. This is highly usable for the human voice band, but it has hard physical limits. 
+At low frequencies (<300 Hz), the wavelengths are too massive for the array to resolve accurate phase differences. 
+At high frequencies (~2957 Hz), the array hits its "Spatial Aliasing" ceiling, where wavelengths become shorter than the mic gap, causing directional confusion. 
+* **Front/Back Ambiguity:** A linear 2-mic array cannot tell if a sound is in front of it or behind it. 
+If you generate a 360-degree polar map (using the tools below), the resulting graph will mirror perfectly from front to back. 
 
 ## 🎛️ White Noise Gain (WNG) & Diagonal Loading
 
-One of the biggest challenges with MVDR on cheap MEMS microphones is White Noise Gain.
-When the MVDR math attempts to cancel out highly correlated noise (like room reverberation) or resolve low frequencies, the matrix inversions become unstable and severely amplify the electrical hiss of the microphones.
+One of the biggest challenges with MVDR on cheap MEMS microphones is White Noise Gain. 
+When the MVDR math attempts to cancel out highly correlated noise (like room reverberation) or resolve low frequencies, the matrix inversions become unstable and severely amplify the electrical hiss of the microphones. 
 
-To counter this, this engine utilizes **Dynamic Trace Loading (Diagonal Loading)**.
+To counter this, this engine utilizes **Dynamic Trace Loading (Diagonal Loading)**. 
 By injecting artificial mathematical noise into the covariance matrix, we force the algorithm to remain stable. 
-* **The Compromise:** Diagonal loading acts as a governor on the math.
-We intentionally trade away a few decibels of maximum theoretical point-source attenuation to guarantee the audio output remains smooth, natural, and free of harsh static clicks.
-You can tune this live using the `--diag-load` parameter.
+* **The Compromise:** Diagonal loading acts as a governor on the math. 
+We intentionally trade away a few decibels of maximum theoretical point-source attenuation to guarantee the audio output remains smooth, natural, and free of harsh static clicks. 
+You can tune this live using the `--diag-load` parameter. 
 
-## 🧠 The VAD Architecture & The Covariance Matrix
+## 🧠 The VAD Architecture & The Covariance Matrix 
 
-This engine is designed to be controlled by a downstream Neural Network (like a TFLite Wakeword runner) via IPC commands.
-**An external VAD (Voice Activity Detection) signal is mandatory for adaptive MVDR to function in the real world.**
+This engine is designed to be controlled by a downstream Neural Network (like a TFLite Wakeword runner) via IPC commands. 
+**An external VAD (Voice Activity Detection) signal is mandatory for adaptive MVDR to function in the real world.** 
 
 
 
@@ -64,23 +64,23 @@ The scripts have been configured to sweep the engine's beam in **361 steps (5-de
 
 
 
-### 1. Generate the Test Audio
-First, generate the simulated voice-band chirp that acts as our fixed 0-degree noise source:
+### 1. Generate the Test Audio 
+First, generate the simulated voice-band chirp that acts as our fixed 0-degree noise source: 
 
-`python3 generate_test_wav.py --angle 0 --duration 3.0`
+`python3 generate_test_wav.py --angle 0 --duration 3.0` 
 
-2. Run the MVDR Engine in Debug Mode
-We use the ALSA snd-aloop virtual cables to route audio entirely inside the Pi without needing physical speakers. Start the engine in a terminal:
+2. Run the MVDR Engine in Debug Mode 
+We use the ALSA snd-aloop virtual cables to route audio entirely inside the Pi without needing physical speakers. Start the engine in a terminal: 
 
-`./mvdr_engine --mic plughw:0,1,0 --out plughw:0,0,1 --debug --diag-load 0.001`
+`./mvdr_engine --mic plughw:0,1,0 --out plughw:0,0,1 --debug --diag-load 0.001` 
 3. Generate the Polar Plot
-In a second terminal, run the automation script. It will send IPC SET <angle> commands to the engine, stream the audio, measure the RMS decibel drop, and output a polar_plot_beam_sweep.png graph:
+In a second terminal, run the automation script. It will send IPC SET <angle> commands to the engine, stream the audio, measure the RMS decibel drop, and output a polar_plot_beam_sweep.png graph: 
 
-python3 run_polar_test.py
-⚠️ Current Status & Disclaimer
-The downstream Wakeword dataset is currently being trained.
-While the core C++ MVDR engine is complete, phase-accurate, and ALSA clock-drift proof, the accompanying C++ TFLite Wakeword runner (which will supply the required VAD 1/VAD 0 signals) has not yet been published.
+python3 run_polar_test.py 
+⚠️ Current Status & Disclaimer 
+The downstream Wakeword dataset is currently being trained. 
+While the core C++ MVDR engine is complete, phase-accurate, and ALSA clock-drift proof, the accompanying C++ TFLite Wakeword runner (which will supply the required VAD 1/VAD 0 signals) has not yet been published. 
 
-Until the Wakeword runner is integrated, this repository functions primarily as an acoustic laboratory testing tool.
-Unless you can provide an external IPC VAD signal to /tmp/mvdr_ipc.sock, the engine will default to either a fixed Delay-and-Sum beamformer or will attempt to adaptively null all audio, including target speech.
+Until the Wakeword runner is integrated, this repository functions primarily as an acoustic laboratory testing tool. 
+Unless you can provide an external IPC VAD signal to /tmp/mvdr_ipc.sock, the engine will default to either a fixed Delay-and-Sum beamformer or will attempt to adaptively null all audio, including target speech. 
 
