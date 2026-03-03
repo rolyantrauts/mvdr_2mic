@@ -1,8 +1,3 @@
-
-
-
-![MVDR Polar map](/tests/polar_plot_beam_sweep1.png)
-
 # mvdr_2mic
 wakeword driven MVDR beamformer
 
@@ -70,3 +65,4 @@ Commands:
 -------------------------
 Pilot Command [1, 0, L, R, Q]: 
 ```
+![MVDR Polar map](/tests/polar_plot_beam_sweep1.png)
