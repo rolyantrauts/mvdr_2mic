@@ -80,6 +80,7 @@ In a second terminal, run the automation script. It will send IPC SET <angle> co
 `python3 run_polar_test.py` 
 
 ⚠️ Current Status & Disclaimer 
+
 The downstream Wakeword dataset is currently being trained. 
 While the core C++ MVDR engine is complete, phase-accurate, and ALSA clock-drift proof, the accompanying C++ TFLite Wakeword runner (which will supply the required VAD 1/VAD 0 signals) has not yet been published. 
 
