@@ -1,4 +1,3 @@
-```
 # MVDR 2-Mic DSP Engine (Raspberry Pi Zero 2 W)
 
 This repository contains a highly optimized, ALSA-native C++ Minimum Variance Distortionless Response (MVDR) beamformer designed specifically for the 2-microphone ReSpeaker HAT on a Raspberry Pi Zero 2 W. 
@@ -68,12 +67,12 @@ The scripts have been configured to sweep the engine's beam in **361 steps (5-de
 ### 1. Generate the Test Audio
 First, generate the simulated voice-band chirp that acts as our fixed 0-degree noise source:
 
-python3 generate_test_wav.py --angle 0 --duration 3.0
+`python3 generate_test_wav.py --angle 0 --duration 3.0`
 
 2. Run the MVDR Engine in Debug Mode
 We use the ALSA snd-aloop virtual cables to route audio entirely inside the Pi without needing physical speakers. Start the engine in a terminal:
 
-./mvdr_engine --mic plughw:0,1,0 --out plughw:0,0,1 --debug --diag-load 0.001
+`./mvdr_engine --mic plughw:0,1,0 --out plughw:0,0,1 --debug --diag-load 0.001`
 3. Generate the Polar Plot
 In a second terminal, run the automation script. It will send IPC SET <angle> commands to the engine, stream the audio, measure the RMS decibel drop, and output a polar_plot_beam_sweep.png graph:
 
@@ -84,4 +83,4 @@ While the core C++ MVDR engine is complete, phase-accurate, and ALSA clock-drift
 
 Until the Wakeword runner is integrated, this repository functions primarily as an acoustic laboratory testing tool.
 Unless you can provide an external IPC VAD signal to /tmp/mvdr_ipc.sock, the engine will default to either a fixed Delay-and-Sum beamformer or will attempt to adaptively null all audio, including target speech.
-```
+
