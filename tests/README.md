@@ -73,7 +73,8 @@ First, generate the simulated voice-band chirp that acts as our fixed 0-degree n
 We use the ALSA snd-aloop virtual cables to route audio entirely inside the Pi without needing physical speakers. Start the engine in a terminal: 
 
 `./mvdr_engine --mic plughw:0,1,0 --out plughw:0,0,1 --debug --diag-load 0.001` 
-3. Generate the Polar Plot
+
+3. Generate the Polar Plot 
 In a second terminal, run the automation script. It will send IPC SET <angle> commands to the engine, stream the audio, measure the RMS decibel drop, and output a polar_plot_beam_sweep.png graph: 
 
 python3 run_polar_test.py 
