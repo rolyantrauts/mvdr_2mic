@@ -1,3 +1,5 @@
+![MVDR Polar map](/tests/polar_plot_beam_sweep1.png)
+
 # mvdr_2mic
 wakeword driven MVDR beamformer
 
