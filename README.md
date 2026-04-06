@@ -66,7 +66,9 @@ Commands:
 Pilot Command [1, 0, L, R, Q]: 
 ```
 
+
 ![MVDR Polar map](/tests/polar_plot_beam_sweep1.png)  
+
 
 # Use a wakword for VAD.
 The models from https://github.com/rolyantrauts/BoWWClient/tree/main/models  
