@@ -74,3 +74,4 @@ https://github.com/rolyantrauts/BoWWServer_x86/tree/main/models
 Trained in https://github.com/rolyantrauts/wakeword_dataset/tree/main/gkws  
 or https://github.com/rolyantrauts/bcresnet have a 'noise' class that IMO is a better term than 'silence'
 Its an inverse VAD but that is really what you want to know that this is not voice.
+Its much less compute from a model you are already running, than external vad.
