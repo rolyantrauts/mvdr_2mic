@@ -65,4 +65,12 @@ Commands:
 -------------------------
 Pilot Command [1, 0, L, R, Q]: 
 ```
-![MVDR Polar map](/tests/polar_plot_beam_sweep1.png)
+
+![MVDR Polar map](/tests/polar_plot_beam_sweep1.png)  
+
+# Use a wakword for VAD.
+The models from https://github.com/rolyantrauts/BoWWClient/tree/main/models  
+https://github.com/rolyantrauts/BoWWServer_x86/tree/main/models
+Trained in https://github.com/rolyantrauts/wakeword_dataset/tree/main/gkws  
+or https://github.com/rolyantrauts/bcresnet have a 'noise' class that IMO is a better term than 'silence'
+Its an inverse VAD but that is really what you want to know that this is not voice.
